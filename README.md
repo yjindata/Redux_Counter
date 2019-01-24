@@ -1,3 +1,3 @@
-Simple counter practice<br>
+## Simple counter practice<br>
 
 Reference: Vanilla JS Redux Boilerplate by velopert
