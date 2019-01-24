@@ -1,12 +1,60 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import { createStore } from 'redux';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+const counterHeadings = document.getElementsByTagName('h1')[0];
+const plusButton = document.getElementById('plus-btn');
+const minusButton = document.getElementById('minus-btn');
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: http://bit.ly/CRA-PWA
-serviceWorker.unregister();
+
+const INCREMENT = 'INCREMENT';
+const DECREMENT = 'DECREMENT';
+
+const increment = () => ({ type: INCREMENT });
+const decrement = () => ({ type: DECREMENT });
+
+
+const initialState = {
+  light: false,
+  counter: 0
+};
+
+
+function reducer(state = initialState, action) {
+  switch (action.type) {
+    case INCREMENT:
+      return {
+        ...state,
+        counter: state.counter + 1
+      };
+    case DECREMENT:
+      return {
+        ...state,
+        counter: state.counter - 1
+      };
+    default:
+      return state;
+  }
+}
+
+// store
+const store = createStore(reducer);
+
+// render function
+const render = () => {
+  const state = store.getState(); 
+  const { counter } = state; 
+
+  counterHeadings.innerText = counter;
+};
+
+render();
+
+
+store.subscribe(render);
+
+plusButton.onclick = () => {
+  store.dispatch(increment());
+};
+
+minusButton.onclick = () => {
+  store.dispatch(decrement());
+};
